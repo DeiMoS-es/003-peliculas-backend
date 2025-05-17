@@ -30,3 +30,19 @@ peliculas-backend/
 ├── composer.json           # Definición de dependencias PHP y scripts de Composer
 ├── symfony.lock            # Control de versiones de recetas de Symfony Flex
 └── README.md               # Información del proyecto (si la tienes)
+
+
+## Flujo de trabajo con ramas
+
+Para organizar el desarrollo de la funcionalidad de usuarios, seguimos esta convención de ramas:
+
+- `feature-users-entities`: para la creación y gestión de las entidades relacionadas con usuarios.
+- `feature-users-register`: para la implementación del registro de usuarios.
+- `feature-users-login`: para la funcionalidad de inicio de sesión.
+- `feature-users-jwt`: para la implementación y gestión de tokens JWT para autenticación.
+
+Esta estructura ayuda a mantener el proyecto organizado y facilita la colaboración en tareas específicas sin conflictos.
+
+---
+
+Las ramas se crean a partir de `main` o `develop` y se hacen merge cuando la funcionalidad está probada y lista para integración.
