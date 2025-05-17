@@ -36,6 +36,7 @@ peliculas-backend/
 ├── composer.json           # Gestión de dependencias y scripts Composer
 ├── symfony.lock            # Control de versiones para Symfony Flex recipes
 └── README.md               # Documentación del proyecto
+```
 
 ## 🌿 Flujo de trabajo con ramas
 
