@@ -1,48 +1,53 @@
+# 🎬 Películas Backend
+
+API backend desarrollada con **Symfony**, destinada a gestionar películas y usuarios de forma eficiente y segura.
+
+## 🚀 Estructura del Proyecto
+
+```plaintext
 peliculas-backend/
 │
-├── bin/                    # Ejecutables, principalmente el archivo "console" para comandos CLI
+├── bin/                    # Ejecutables, especialmente el archivo "console" para comandos CLI
 │
-├── config/                 # Configuración del proyecto (rutas, servicios, paquetes, seguridad)
-│   ├── packages/           # Configuración específica de bundles (doctrine.yaml, security.yaml, etc)
-│   ├── routes/             # Rutas del proyecto, pueden estar en varios archivos YAML o PHP
-│   └── services.yaml       # Configuración general de servicios (inyección de dependencias)
+├── config/                 # Configuración general del proyecto
+│   ├── packages/           # Configuraciones específicas de bundles (doctrine.yaml, security.yaml, etc.)
+│   ├── routes/             # Definición de rutas (YAML, PHP)
+│   └── services.yaml       # Configuración de servicios e inyección de dependencias
 │
-├── public/                 # Carpeta pública, raíz web, donde va index.php (punto de entrada)
-│                           # También aquí se ponen assets públicos (imágenes, CSS, JS)
+├── public/                 # Raíz pública web (index.php y assets: imágenes, CSS, JS)
 │
-├── src/                    # Código PHP principal del proyecto
-│   ├── Controller/         # Controladores (clases que responden a rutas HTTP)
-│   ├── Entity/             # Entidades Doctrine (modelos que representan tablas de la base de datos)
-│   ├── Repository/         # Repositorios para consultas personalizadas de entidades
-│   ├── Security/           # Clases relacionadas con la seguridad (User, Voters, Providers)
-│   ├── Service/            # Servicios (clases con lógica de negocio reusable)
-│   └── ...                 # Puedes crear más carpetas según necesidad (EventListener, DTOs, etc)
+├── src/                    # Código fuente PHP principal
+│   ├── Controller/         # Controladores HTTP
+│   ├── Entity/             # Entidades Doctrine (modelos de base de datos)
+│   ├── Repository/         # Repositorios para consultas personalizadas
+│   ├── Security/           # Clases relacionadas con seguridad (Users, Voters, Providers)
+│   ├── Service/            # Servicios con lógica de negocio reusable
+│   └── ...                 # Otros directorios según necesidad (EventListener, DTOs, etc.)
 │
-├── templates/              # Plantillas Twig para vistas (si haces frontend con Symfony)
+├── templates/              # Plantillas Twig para frontend (si aplica)
 │
-├── translations/           # Archivos de traducción (idiomas)
+├── translations/           # Archivos para traducciones y localización
 │
-├── var/                    # Archivos temporales, cachés, logs
+├── var/                    # Archivos temporales, caché y logs
 │
-├── vendor/                 # Dependencias instaladas con Composer
+├── vendor/                 # Dependencias instaladas vía Composer
 │
-├── .env                    # Variables de entorno para configuración (bd, APP_ENV, etc)
-├── composer.json           # Definición de dependencias PHP y scripts de Composer
-├── symfony.lock            # Control de versiones de recetas de Symfony Flex
-└── README.md               # Información del proyecto (si la tienes)
+├── .env                    # Variables de entorno (configuración sensible)
+├── composer.json           # Gestión de dependencias y scripts Composer
+├── symfony.lock            # Control de versiones para Symfony Flex recipes
+└── README.md               # Documentación del proyecto
 
+## 🌿 Flujo de trabajo con ramas
 
-## Flujo de trabajo con ramas
+Para un desarrollo organizado y modular, se utilizan ramas específicas para la funcionalidad de usuarios:
 
-Para organizar el desarrollo de la funcionalidad de usuarios, seguimos esta convención de ramas:
+- `feature-users-entities`: definición y gestión de entidades relacionadas con usuarios.
+- `feature-users-register`: desarrollo de la funcionalidad de registro de usuarios.
+- `feature-users-login`: implementación del inicio de sesión.
+- `feature-users-jwt`: gestión de autenticación mediante tokens JWT.
 
-- `feature-users-entities`: para la creación y gestión de las entidades relacionadas con usuarios.
-- `feature-users-register`: para la implementación del registro de usuarios.
-- `feature-users-login`: para la funcionalidad de inicio de sesión.
-- `feature-users-jwt`: para la implementación y gestión de tokens JWT para autenticación.
-
-Esta estructura ayuda a mantener el proyecto organizado y facilita la colaboración en tareas específicas sin conflictos.
+Cada rama parte de `main` (o `develop`) y se integran cuando la funcionalidad está testeada y lista para producción. Esta organización facilita la colaboración y el control de versiones.
 
 ---
 
-Las ramas se crean a partir de `main` o `develop` y se hacen merge cuando la funcionalidad está probada y lista para integración.
+¡Bienvenido al proyecto! Si tienes dudas o sugerencias, no dudes en contribuir.
