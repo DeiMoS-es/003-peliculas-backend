@@ -30,7 +30,8 @@ final class MovieController extends AbstractController
         ]);
     }
 
-    #[Route('/movies/{id}', name: 'get_movie', methods: ['GET'])]
+    #[Route('/{id}', name: 'get_movie', methods: ['GET'])]
+
     public function getMovie(int $id, SerializerInterface $serializer): JsonResponse
     {
         $movie = $this->movieService->getMovieById($id);
@@ -39,7 +40,6 @@ final class MovieController extends AbstractController
             return new JsonResponse(['error' => 'Película no encontrada'], Response::HTTP_NOT_FOUND);
         }
 
-        $json = $serializer->serialize($movie, 'json', ['groups' => 'movie:read']);
-        return new JsonResponse($json, Response::HTTP_OK, [], true);
+        return $this->json($movie, Response::HTTP_OK, [], ['groups' => 'movie:read']);
     }
 }
