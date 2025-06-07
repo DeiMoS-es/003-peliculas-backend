@@ -1,5 +1,7 @@
 .git
 node_modules
-var
 vendor
+var/cache
+var/log
+var/sessions
 .env.local
