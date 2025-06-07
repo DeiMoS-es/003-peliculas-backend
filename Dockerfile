@@ -15,9 +15,6 @@ WORKDIR /var/www/html
 # Copia archivos del proyecto Symfony
 COPY . .
 
-# Copia el archivo de entorno de producción si existe
-# (puedes tener un .env.prod en tu repositorio para estos casos)
-COPY .env.prod .env
 
 # Instala Composer (si no está ya en la imagen base)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
