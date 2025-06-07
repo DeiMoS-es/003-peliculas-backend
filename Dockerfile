@@ -1,44 +1,41 @@
-# Usa una imagen oficial de PHP con Apache
-FROM php:8.2-apache
+# Imagen base oficial de PHP con Apache
+FROM php:8.3-apache
 
-# Instala extensiones necesarias de PHP
+# Instala extensiones necesarias para Symfony (ajusta según tus necesidades)
 RUN apt-get update && apt-get install -y \
-    git zip unzip curl libicu-dev libonig-dev libzip-dev libpng-dev libxml2-dev \
+    git unzip zip libicu-dev libonig-dev libzip-dev libpq-dev libjpeg-dev libpng-dev libxml2-dev libcurl4-openssl-dev libssl-dev \
     && docker-php-ext-install intl pdo pdo_mysql zip opcache
 
-# Habilita Apache mod_rewrite
+# Habilita el módulo Apache Rewrite
 RUN a2enmod rewrite
 
-# Cambia DocumentRoot a /var/www/html/public
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
-
-# Instala Composer globalmente
-RUN curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
-
-# Copia el código fuente
-COPY . /var/www/html/
-
-# Crea un usuario sin privilegios
-RUN useradd -m symfonyuser
-
-# Establece el directorio de trabajo
+# Establece directorio de trabajo
 WORKDIR /var/www/html
 
-# Cambia propietario de los archivos para que symfonyuser pueda escribir
-RUN chown -R symfonyuser:symfonyuser /var/www/html
+# Copia archivos del proyecto Symfony
+COPY . .
 
-# Usa el usuario sin privilegios
-USER symfonyuser
+# Copia el archivo de entorno de producción si existe
+# (puedes tener un .env.prod en tu repositorio para estos casos)
+COPY .env.prod .env
 
-# Instala dependencias
-RUN composer install --no-dev --optimize-autoloader
+# Instala Composer (si no está ya en la imagen base)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Volvemos al usuario www-data para ejecución de Apache
-USER www-data
+# Compila entorno de prod
+RUN composer dump-env prod
 
-# Expone el puerto 80
+# Instala dependencias en modo producción
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# Borra caché previa si existiera (evita errores si ya hay directorios)
+RUN rm -rf var/cache/*
+
+# Genera la caché de Symfony en modo producción
+RUN php bin/console cache:clear --env=prod --no-debug || true
+
+# Cambia el propietario al usuario Apache
+RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
+
+# Exponer el puerto 80
 EXPOSE 80
-
-# Comando por defecto
-CMD ["apache2-foreground"]
