@@ -31,7 +31,7 @@ RUN mkdir -p var/cache var/log var/sessions vendor && chown -R www-data:www-data
 RUN php bin/console cache:clear --env=prod --no-debug || true
 
 # Copiamos tu archivo de configuración vhost para Apache
-COPY vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 # Exponemos puerto 80 para Apache
 EXPOSE 80
