@@ -16,28 +16,29 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /et
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
 
-# Copia el código al contenedor
+# Copia el código fuente
 COPY . /var/www/html/
+
+# Crea un usuario sin privilegios
+RUN useradd -m symfonyuser
 
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
-# Ajusta permisos para que www-data tenga acceso (Apache)
-RUN mkdir -p var vendor && chown -R www-data:www-data var vendor
+# Cambia propietario de los archivos para que symfonyuser pueda escribir
+RUN chown -R symfonyuser:symfonyuser /var/www/html
 
-# Crea un usuario sin privilegios y cambia a él
-RUN useradd -m symfonyuser
-
+# Usa el usuario sin privilegios
 USER symfonyuser
 
-# Instala dependencias con composer como usuario no root
-RUN if [ -f composer.json ]; then composer install --no-dev --optimize-autoloader; fi
+# Instala dependencias
+RUN composer install --no-dev --optimize-autoloader
 
-# Cambia a usuario www-data para que Apache pueda leer y escribir lo necesario
+# Volvemos al usuario www-data para ejecución de Apache
 USER www-data
 
-# Expone el puerto 80 para Apache
+# Expone el puerto 80
 EXPOSE 80
 
-# Comando por defecto (ya está en la imagen php:apache)
+# Comando por defecto
 CMD ["apache2-foreground"]
