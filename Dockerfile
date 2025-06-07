@@ -19,7 +19,7 @@ COPY . .
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Instalamos las dependencias PHP sin dev, con optimización
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader
 
 # Limpiamos cache de Symfony
 RUN rm -rf var/cache/*
