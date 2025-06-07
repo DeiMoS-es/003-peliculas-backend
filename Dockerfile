@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     git unzip zip libicu-dev libonig-dev libzip-dev libpq-dev libjpeg-dev libpng-dev libxml2-dev libcurl4-openssl-dev libssl-dev \
     && docker-php-ext-install intl pdo pdo_mysql zip opcache
 
-# Activamos mod_rewrite para Apache
+# Activamos mod_rewrite para Apache (necesario para Symfony)
 RUN a2enmod rewrite
 
 # Creamos usuario y grupo sin privilegios (uid y gid 1000)
@@ -18,7 +18,7 @@ WORKDIR /var/www/html
 # Copiamos composer.json y composer.lock para aprovechar cache de Docker
 COPY composer.json composer.lock ./
 
-# Copiamos composer desde la imagen oficial
+# Copiamos composer desde la imagen oficial de composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Copiamos el resto del proyecto (excluyendo vendor)
@@ -31,19 +31,19 @@ RUN chown -R appuser:appuser /var/www/html
 USER appuser
 
 # Instalamos dependencias PHP sin dev y con autoloader optimizado (sin scripts para evitar errores)
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader 
 
-# Ejecutamos los scripts que antes saltaron con error (por tener bin/console disponible ahora)
+# Ejecutamos los scripts que antes saltaron con error (bin/console disponible ahora)
 RUN php bin/console cache:clear --env=prod --no-debug || true
 
 # Volvemos a root para configurar permisos y otras tareas
 USER root
 
-# Ajustamos permisos para carpetas que Symfony debe escribir (usamos www-data que es usuario Apache)
-RUN mkdir -p var/cache var/log var/sessions vendor && \
-    chown -R www-data:www-data var vendor
+# Ajustamos permisos para carpetas que Symfony debe escribir (cache, logs, sessions)
+RUN mkdir -p var/cache var/log var/sessions && \
+    chown -R www-data:www-data var
 
-# Copiamos configuración apache personalizada
+# Copiamos configuración apache personalizada con DocumentRoot /var/www/html/public
 COPY apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 # Exponemos puerto 80
