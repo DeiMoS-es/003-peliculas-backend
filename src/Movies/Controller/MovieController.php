@@ -3,7 +3,7 @@
 namespace App\Movies\Controller;
 
 
-use App\Movies\Dto\MovieInputDto;
+use App\Movies\Entity\MovieInputDto;
 use App\Movies\Mapper\MovieMapperFromDTO;
 use App\Movies\Mapper\MovieMapperToDTO;
 use App\Movies\Repository\MovieRepository;

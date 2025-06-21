@@ -1,5 +1,5 @@
 <?php
-namespace App\Movies\Dto;
+namespace App\Movies\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
