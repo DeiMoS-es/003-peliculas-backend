@@ -1,7 +1,7 @@
 <?php
 namespace App\Movies\Entity;
 
-class MovieOutputDto
+class MovieOutputDTO
 {
     public int $id;
     public string $title_movie;

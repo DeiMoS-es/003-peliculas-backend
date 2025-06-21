@@ -73,7 +73,7 @@ final class MovieController extends AbstractController
     #[Route('/create', name: 'create_movie', methods: ['POST'])]
     public function createMovie(Request $request, SerializerInterface $serializer): JsonResponse
     {
-        $inputDto = $serializer->deserialize($request->getContent(), MovieInputDto::class, 'json');
+        $inputDto = $serializer->deserialize($request->getContent(), MovieInputDTO::class, 'json');
         $errors = $this->validator->validate(($inputDto));
 
         if (count($errors) > 0) {

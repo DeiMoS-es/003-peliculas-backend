@@ -3,7 +3,7 @@ namespace App\Movies\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class MovieInputDto
+class MovieInputDTO
 {
     #[Assert\NotBlank]
     public string $title_movie;
