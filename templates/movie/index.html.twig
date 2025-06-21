@@ -25,6 +25,7 @@
                 <td>{{ movie.popularity }}</td>
                 <td>{{ movie.voteAverage }}</td>
                 <td>
+                {% dump movies %}
 
                     {% if movie.genres is not empty %}
                         {% for genre in movie.genres %}
