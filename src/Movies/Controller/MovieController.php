@@ -86,4 +86,6 @@ final class MovieController extends AbstractController
         // Serializar y responder
         return new JsonResponse($serializer->serialize($outputDto, 'json'), Response::HTTP_CREATED, [], true);
     }
+
+  
 }
