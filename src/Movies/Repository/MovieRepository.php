@@ -50,6 +50,7 @@ class MovieRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function save(Movie $movie, bool $flush = false): void
     {
         $em = $this->getEntityManager(); // Usa el método correcto
@@ -57,5 +58,19 @@ class MovieRepository extends ServiceEntityRepository
         if ($flush) {
             $em->flush();
         }
+    }
+
+    public function remove(Movie $movie, bool $flush = false): void
+    {
+        $em = $this->getEntityManager();
+        $em->remove($movie);
+        if ($flush) {
+            $em->flush();
+        }
+    }
+
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
     }
 }
